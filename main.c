@@ -12,7 +12,7 @@ typedef struct s_task{                                                          
 void rialloca(task **older, int *n);                                            //Funzione per riallocare array;
 void insertionSort(task *v, int n, int clock);                                  //Insertion sort per ordinare processi in ordine di tempo rimanente;
 void dropZero(task v[], int n);                                                 //Serve a mettere in coda all'array i processi terminati;
-//int TempoMedioAttesa(task v[], int n);                                          //Funzione per calcolare il tempo medio di attesa ||TODO;
+float AWT(task v[], int n);                                                       //Funzione per calcolare il tempo medio di attesa ||TODO;
 
 int main(int argc, char** argv) {
     int ctrl = 1;                                                               //Flag per esecuzione;
@@ -22,6 +22,7 @@ int main(int argc, char** argv) {
     int n = 0;                                                                  //Dimensione dell'array;
     int choice;                                                                 //Scelta utente di inserire un nuovo processo;
     int i;                                                                      //Contatore tuttofare;
+    float awt;
     
     for(clock = 0; ctrl; clock++){                                              //Inizio corpo principale;
         printf("Tempo Clock: %d\n", clock);
@@ -48,10 +49,10 @@ int main(int argc, char** argv) {
         }
         if(counter == n)                                                        //Se tutti processi terminati
             ctrl = 0;                                                           //  cambio flag;
-        
     }
     
-    //TODO AWT();
+    awt = AWT(v, n);                                                            //Calcolo Tempo Medio Attesa;
+    printf("\nIl tempo medio di attesa e': %f", awt);
     
     return (EXIT_SUCCESS);
 }
@@ -113,4 +114,16 @@ void insertionSort(task *v, int n, int clock){                                  
         }
         v[i]=temp;                                                              //  metti il nuovo processo al suo posto;
     }
+}
+
+float AWT(task v[], int n){
+    int i;
+    float awt = 0;
+    
+    for(i=0;i<n;i++)
+        awt += v[i].WaitTime;
+    
+    awt /= n;
+    
+    return awt;
 }
